@@ -1,0 +1,45 @@
+/* Profile Styles */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Avatar styling */
+.rounded-full {
+  border-radius: 50%;
+}
+
+/* Status indicator */
+.bg-green-500 {
+  background-color: #10B981;
+}
+
+.bg-red-500 {
+  background-color: #EF4444;
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Spinning animation for loading */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 640px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}

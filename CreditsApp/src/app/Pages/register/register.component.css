@@ -1,0 +1,63 @@
+.register-background {
+  background-image: url('../../../assets/imagen-banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+input:focus, select:focus {
+  box-shadow: 0 0 0 2px rgb(215, 74, 58);
+}
+
+input[type="checkbox"]:checked {
+  background-color: rgb(215, 74, 58);
+  border-color: rgb(215, 74, 58);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Estilos para el selector de tipo de identificación */
+.custom-select {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.custom-select select {
+  appearance: none;
+  width: 100%;
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 16px 12px;
+  padding-right: 2.5rem;
+}
+
+.custom-select::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid white;
+  pointer-events: none;
+}
+
+/* Añadir espacio entre los campos del formulario en dos columnas */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
