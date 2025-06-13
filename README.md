@@ -9,7 +9,7 @@
 
 **Frontend de aplicación de gestión de créditos en línea para prueba técnica del Banco de Guayaquil**
 
-[Demo](#) | [Backend API](#) | [Documentación](#)
+[Demo](#) | [Backend API](#https://github.com/Dafesanc/AppCreditosBackEnd) | [Documentación](#https://drive.google.com/drive/u/1/folders/1ntHn_5vnf6bDgPQHv8mUmPP78LCLK1p2)
 
 </div>
 
