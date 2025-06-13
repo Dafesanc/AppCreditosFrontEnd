@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './Pages/login/login.component';
 import { RegisterComponent } from './Pages/register/register.component';
 import { HomeComponent } from './Pages/home/home.component';
+import { UserComponent } from './Pages/user/user.component';
+import { CreditsApplicationComponent } from './credits-application/credits-application.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -10,6 +12,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'register', component: RegisterComponent },
   {path: 'home', component: HomeComponent, canActivate: [authGuard] },
-  // Agrega aquí otras rutas protegidas con el authGuard
+  {path: 'user', component: UserComponent, canActivate: [authGuard] },
+  {path: 'credits', component: CreditsApplicationComponent, canActivate: [authGuard] },
   {path: '**', redirectTo: '/login'}
 ];

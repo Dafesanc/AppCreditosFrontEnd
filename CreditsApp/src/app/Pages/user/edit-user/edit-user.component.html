@@ -1,0 +1,148 @@
+<!-- Modal Overlay -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <!-- Modal Content -->
+  <div class="bg-[rgb(20,20,20)] rounded-lg shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-700 bg-[rgb(237,200,101)] bg-opacity-10">
+      <h3 class="text-lg font-semibold text-white">Editar Usuario</h3>
+      <button
+        (click)="onClose()"
+        class="text-gray-400 hover:text-white transition-colors p-1 rounded-md hover:bg-gray-700">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6">
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <!-- First Name -->
+        <div class="mb-4">
+          <label for="firstName" class="block text-sm font-medium text-gray-300 mb-2">
+            Nombres *
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Ingrese los nombres">
+          <div *ngIf="editForm.get('firstName')?.touched && editForm.get('firstName')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('firstName')?.errors?.['required']">Los nombres son requeridos</div>
+            <div *ngIf="editForm.get('firstName')?.errors?.['minlength']">Mínimo 2 caracteres</div>
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="mb-4">
+          <label for="lastName" class="block text-sm font-medium text-gray-300 mb-2">
+            Apellidos *
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Ingrese los apellidos">
+          <div *ngIf="editForm.get('lastName')?.touched && editForm.get('lastName')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('lastName')?.errors?.['required']">Los apellidos son requeridos</div>
+            <div *ngIf="editForm.get('lastName')?.errors?.['minlength']">Mínimo 2 caracteres</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+            Correo Electrónico *
+          </label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="correo@ejemplo.com">
+          <div *ngIf="editForm.get('email')?.touched && editForm.get('email')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('email')?.errors?.['required']">El email es requerido</div>
+            <div *ngIf="editForm.get('email')?.errors?.['email']">Email inválido</div>
+          </div>
+        </div>
+
+        <!-- Identification Number -->
+        <div class="mb-4">
+          <label for="identificationNumber" class="block text-sm font-medium text-gray-300 mb-2">
+            Número de Identificación *
+          </label>
+          <input
+            type="text"
+            id="identificationNumber"
+            formControlName="identificationNumber"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Número de documento">
+          <div *ngIf="editForm.get('identificationNumber')?.touched && editForm.get('identificationNumber')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('identificationNumber')?.errors?.['required']">El número de identificación es requerido</div>
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div class="mb-4">
+          <label for="role" class="block text-sm font-medium text-gray-300 mb-2">
+            Rol *
+          </label>
+          <select
+            id="role"
+            formControlName="role"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]">
+            <option value="1">Solicitante</option>
+            <option value="2">Analista</option>
+          </select>
+          <div *ngIf="editForm.get('role')?.touched && editForm.get('role')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('role')?.errors?.['required']">El rol es requerido</div>
+          </div>
+        </div>
+
+        <!-- Birth Date -->
+        <div class="mb-6">
+          <label for="birthDate" class="block text-sm font-medium text-gray-300 mb-2">
+            Fecha de Nacimiento *
+          </label>
+          <input
+            type="date"
+            id="birthDate"
+            formControlName="birthDate"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]">
+          <div *ngIf="editForm.get('birthDate')?.touched && editForm.get('birthDate')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="editForm.get('birthDate')?.errors?.['required']">La fecha de nacimiento es requerida</div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="mb-4 p-3 bg-[rgb(215,74,58)] bg-opacity-20 border border-[rgb(215,74,58)] rounded-md">
+          <p class="text-[rgb(215,74,58)] text-sm">{{ error }}</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end space-x-3">
+          <button
+            type="button"
+            (click)="onClose()"
+            class="px-4 py-2 text-gray-300 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            [disabled]="loading || editForm.invalid"
+            class="px-4 py-2 bg-[rgb(215,74,58)] text-white rounded-md hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center">
+            <span *ngIf="loading" class="mr-2">
+              <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+            {{loading ? 'Guardando...' : 'Guardar Cambios'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

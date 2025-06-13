@@ -1,15 +1,6 @@
 <div class="min-h-screen bg-[#141414] text-white flex flex-col">
-  <!-- Header -->
-  <header class="bg-[#252440] py-4 px-6 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Mi Aplicación</h1>
-      <button
-        (click)="logout()"
-        class="bg-[#d74a3a] hover:bg-opacity-90 text-white px-4 py-2 rounded-md transition duration-200">
-        Cerrar Sesión
-      </button>
-    </div>
-  </header>
+  <!-- Shared Header Component -->
+  <app-header></app-header>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="flex-1 flex items-center justify-center">
@@ -88,10 +79,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="bg-[#252440] py-4 px-6 text-center">
-    <p class="text-sm text-gray-400">© {{currentYear}} Mi Aplicación. Todos los derechos reservados.</p>
-  </footer>
+  <!-- Shared Footer Component -->
+  <app-footer></app-footer>
 </div>
 

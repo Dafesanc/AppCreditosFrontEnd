@@ -5,11 +5,13 @@ import { UsersService } from '../../services/users/users.service';
 import { Router } from '@angular/router';
 import { UserLoged } from '../../../Models/UserLoged';
 import localeEs from '@angular/common/locales/es';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -69,22 +71,5 @@ export class HomeComponent implements OnInit {
       default:
         return 'Usuario';
     }
-  }
-  logout(): void {
-    this.authService.logout().subscribe({
-      next: () => {
-        // Eliminar tokens de ambos almacenamientos
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Error al cerrar sesión:', err);
-        // Aún así, eliminamos el token y redirigimos
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        this.router.navigate(['/login']);
-      }
-    });
-  }
+  }  // El manejo del logout se ha trasladado al componente de header
 }

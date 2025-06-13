@@ -1,1 +1,302 @@
-<p>credits-application works!</p>
+<div class="min-h-screen bg-[#141414] text-white flex flex-col">
+  <!-- Shared Header Component -->
+  <app-header></app-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex-1 flex items-center justify-center">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[rgb(215,74,58)]"></div>
+  </div>
+
+  <!-- Content for Applicants (Solicitantes) -->
+  <div *ngIf="!loading && isApplicant" class="container mx-auto py-8 px-4 flex-1">
+    <!-- Page Header -->
+    <div class="mb-6 flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-white mb-2">Mis Solicitudes de Crédito</h1>
+        <p class="text-gray-400">Gestiona tus solicitudes de crédito</p>
+      </div>
+      <button
+        (click)="toggleCreateForm()"
+        class="bg-[rgb(215,74,58)] hover:bg-opacity-90 text-white px-6 py-2 rounded-md transition duration-200 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+        </svg>
+        Nueva Solicitud
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="mb-6 p-4 bg-[rgb(215,74,58)] bg-opacity-20 border border-[rgb(215,74,58)] rounded-lg">
+      <p class="text-[rgb(215,74,58)]">{{ error }}</p>
+    </div>
+
+    <!-- Create Form -->
+    <div *ngIf="showCreateForm" class="bg-[rgb(20,20,20)] rounded-lg shadow-xl p-6 mb-6 border border-gray-700">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-semibold text-white">Nueva Solicitud de Crédito</h2>
+        <button
+          (click)="toggleCreateForm()"
+          class="text-gray-400 hover:text-white transition-colors">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+
+      <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Monto Solicitado -->
+        <div>
+          <label for="requestedAmount" class="block text-sm font-medium text-gray-300 mb-2">
+            Monto Solicitado *
+          </label>
+          <input
+            type="number"
+            id="requestedAmount"
+            formControlName="requestedAmount"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Ej: 50000">
+          <div *ngIf="createForm.get('requestedAmount')?.touched && createForm.get('requestedAmount')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="createForm.get('requestedAmount')?.errors?.['required']">El monto es requerido</div>
+            <div *ngIf="createForm.get('requestedAmount')?.errors?.['min']">El monto mínimo es $1,000</div>
+            <div *ngIf="createForm.get('requestedAmount')?.errors?.['max']">El monto máximo es $1,000,000</div>
+          </div>
+        </div>
+
+        <!-- Plazo en Meses -->
+        <div>
+          <label for="termInMonths" class="block text-sm font-medium text-gray-300 mb-2">
+            Plazo en Meses *
+          </label>
+          <select
+            id="termInMonths"
+            formControlName="termInMonths"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]">
+            <option value="">Seleccionar plazo</option>
+            <option value="6">6 meses</option>
+            <option value="12">12 meses</option>
+            <option value="18">18 meses</option>
+            <option value="24">24 meses</option>
+            <option value="36">36 meses</option>
+            <option value="48">48 meses</option>
+            <option value="60">60 meses</option>
+          </select>
+          <div *ngIf="createForm.get('termInMonths')?.touched && createForm.get('termInMonths')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="createForm.get('termInMonths')?.errors?.['required']">El plazo es requerido</div>
+          </div>
+        </div>
+
+        <!-- Ingreso Mensual -->
+        <div>
+          <label for="monthlyIncome" class="block text-sm font-medium text-gray-300 mb-2">
+            Ingreso Mensual *
+          </label>
+          <input
+            type="number"
+            id="monthlyIncome"
+            formControlName="monthlyIncome"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Ej: 5000">
+          <div *ngIf="createForm.get('monthlyIncome')?.touched && createForm.get('monthlyIncome')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="createForm.get('monthlyIncome')?.errors?.['required']">El ingreso mensual es requerido</div>
+            <div *ngIf="createForm.get('monthlyIncome')?.errors?.['min']">El ingreso debe ser mayor a 0</div>
+          </div>
+        </div>
+
+        <!-- Años de Experiencia Laboral -->
+        <div>
+          <label for="workExperienceYears" class="block text-sm font-medium text-gray-300 mb-2">
+            Años de Experiencia Laboral *
+          </label>
+          <input
+            type="number"
+            id="workExperienceYears"
+            formControlName="workExperienceYears"
+            class="w-full px-3 py-2 bg-[rgb(20,20,20)] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-[rgb(215,74,58)] focus:ring-1 focus:ring-[rgb(215,74,58)]"
+            placeholder="Ej: 5">
+          <div *ngIf="createForm.get('workExperienceYears')?.touched && createForm.get('workExperienceYears')?.invalid" class="mt-1 text-sm text-[rgb(215,74,58)]">
+            <div *ngIf="createForm.get('workExperienceYears')?.errors?.['required']">Los años de experiencia son requeridos</div>
+            <div *ngIf="createForm.get('workExperienceYears')?.errors?.['min']">Los años de experiencia no pueden ser negativos</div>
+            <div *ngIf="createForm.get('workExperienceYears')?.errors?.['max']">Máximo 50 años de experiencia</div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="md:col-span-2 flex justify-end space-x-3">
+          <button
+            type="button"
+            (click)="toggleCreateForm()"
+            class="px-6 py-2 text-gray-300 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            [disabled]="submitting || createForm.invalid"
+            class="px-6 py-2 bg-[rgb(215,74,58)] text-white rounded-md hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center">
+            <span *ngIf="submitting" class="mr-2">
+              <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+            {{submitting ? 'Creando...' : 'Crear Solicitud'}}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Applications List for Applicants -->
+    <div class="bg-[rgb(20,20,20)] rounded-lg shadow-xl overflow-hidden border border-gray-700">
+      <div class="bg-[#252440] bg-opacity-10 p-6 border-b border-gray-700">
+        <h2 class="text-xl font-semibold text-white">Historial de Solicitudes</h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-[#252440] bg-opacity-20">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Monto</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Plazo</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            <tr *ngFor="let app of filteredApplications" class="hover:bg-gray-800 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-white">${{app.requestedAmount | number:'1.0-0'}}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-300">{{app.termInMonths}} meses</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="getStatusClass(app.status)">
+                  {{getStatusName(app.status)}}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                {{app.createdAt | date:'dd/MM/yyyy'}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="filteredApplications.length === 0" class="p-8 text-center">
+          <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"></path>
+          </svg>
+          <p class="text-gray-400">No tienes solicitudes de crédito</p>
+          <button
+            (click)="toggleCreateForm()"
+            class="mt-4 text-[rgb(215,74,58)] hover:text-[rgb(215,74,58)] hover:underline">
+            Crear tu primera solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content for Analysts (Analistas) -->
+  <div *ngIf="!loading && isAnalyst" class="container mx-auto py-8 px-4 flex-1">
+    <!-- Page Header -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-white mb-2">Gestión de Solicitudes de Crédito</h1>
+      <p class="text-gray-400">Revisa y gestiona todas las solicitudes de crédito</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="mb-6 p-4 bg-[rgb(215,74,58)] bg-opacity-20 border border-[rgb(215,74,58)] rounded-lg">
+      <p class="text-[rgb(215,74,58)]">{{ error }}</p>
+    </div>
+
+    <!-- Applications List for Analysts -->
+    <div class="bg-[rgb(20,20,20)] rounded-lg shadow-xl overflow-hidden border border-gray-700">
+      <!-- Card Header with Filter -->
+      <div class="bg-[#252440] bg-opacity-10 p-6 border-b border-gray-700">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-semibold text-white">Todas las Solicitudes</h2>
+          <div class="flex items-center space-x-4">
+            <label class="text-sm text-gray-300">Filtrar por estado:</label>
+            <select
+              [formControl]="statusFilter"
+              class="bg-[rgb(20,20,20)] text-white px-3 py-2 rounded-md border border-gray-600 focus:border-[rgb(215,74,58)] focus:outline-none focus:ring-1 focus:ring-[rgb(215,74,58)]">
+              <option value="">Todos los estados</option>
+              <option value="1">Pendiente</option>
+              <option value="2">Aprobado</option>
+              <option value="3">Rechazado</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-[#252440] bg-opacity-20">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Solicitante</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Monto</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Plazo</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Sugerencia</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            <tr *ngFor="let app of filteredApplications" class="hover:bg-gray-800 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-white">{{app.applicantName}}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-300">${{app.requestedAmount | number:'1.0-0'}}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-300">{{app.termInMonths}} meses</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="getStatusClass(app.status)">
+                  {{getStatusName(app.status)}}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="getStatusClass(app.suggestedStatus)">
+                  {{getStatusName(app.suggestedStatus)}}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                {{app.createdAt | date:'dd/MM/yyyy'}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button
+                  (click)="viewApplication(app)"
+                  class="text-[rgb(237,200,101)] hover:text-[rgb(237,200,101)] hover:bg-[rgb(237,200,101)] hover:bg-opacity-10 p-2 rounded-md transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="filteredApplications.length === 0" class="p-8 text-center">
+          <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"></path>
+          </svg>
+          <p class="text-gray-400">No hay solicitudes de crédito</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Application Modal -->
+  <app-view-application
+    *ngIf="showViewModal && selectedApplication"
+    [application]="selectedApplication"
+    (close)="closeViewModal()"
+    (applicationUpdated)="onApplicationUpdated($event)">
+  </app-view-application>
+
+  <!-- Shared Footer Component -->
+  <app-footer></app-footer>
+</div>
