@@ -34,13 +34,11 @@
               {{getStatusName(application.status)}}
             </span>
           </div>
-        </div>
-
-        <!-- Monto Solicitado -->
+        </div>        <!-- Monto Solicitado -->
         <div>
           <label class="block text-sm font-medium text-gray-300 mb-2">Monto Solicitado</label>
           <div class="bg-[rgb(30,30,30)] p-3 rounded-md border border-gray-600">
-            <p class="text-white font-medium">${{application.requestedAmount | number:'1.0-0'}}</p>
+            <p class="text-white font-medium">${{application.requestedAmount | number:'1.2-2'}}</p>
           </div>
         </div>
 
@@ -50,13 +48,11 @@
           <div class="bg-[rgb(30,30,30)] p-3 rounded-md border border-gray-600">
             <p class="text-white">{{application.termInMonths}} meses</p>
           </div>
-        </div>
-
-        <!-- Ingreso Mensual -->
+        </div>        <!-- Ingreso Mensual -->
         <div>
           <label class="block text-sm font-medium text-gray-300 mb-2">Ingreso Mensual</label>
           <div class="bg-[rgb(30,30,30)] p-3 rounded-md border border-gray-600">
-            <p class="text-white">${{application.monthlyIncome | number:'1.0-0'}}</p>
+            <p class="text-white">${{application.monthlyIncome | number:'1.2-2'}}</p>
           </div>
         </div>
 

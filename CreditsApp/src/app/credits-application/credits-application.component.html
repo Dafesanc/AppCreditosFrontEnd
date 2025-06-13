@@ -160,10 +160,9 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-700">
-            <tr *ngFor="let app of filteredApplications" class="hover:bg-gray-800 transition-colors">
+          <tbody class="divide-y divide-gray-700">            <tr *ngFor="let app of filteredApplications" class="hover:bg-gray-800 transition-colors">
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-white">${{app.requestedAmount | number:'1.0-0'}}</div>
+                <div class="text-sm font-medium text-white">${{app.requestedAmount | number:'1.2-2'}}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-300">{{app.termInMonths}} meses</div>
@@ -245,9 +244,8 @@
             <tr *ngFor="let app of filteredApplications" class="hover:bg-gray-800 transition-colors">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-white">{{app.applicantName}}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-300">${{app.requestedAmount | number:'1.0-0'}}</div>
+              </td>              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-300">${{app.requestedAmount | number:'1.2-2'}}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-300">{{app.termInMonths}} meses</div>
