@@ -67,6 +67,7 @@ ng version
      apiUrl: 'https://localhost:7068/api' // Ajustar según tu backend
    }
    ```
+   IMPORTANTE VERIFICAR AL LEVANTAR EN LOCAL QUE URL TIENE TU BACKEND Y CONFIGURARLA EN ESTE ARCHIVO TAL COMO ESTA EL EJEMPLO EN EL COMO YO LO HICE
 
 5. **Ejecutar la aplicación:**
    ```bash
@@ -334,10 +335,10 @@ CreditsApp/
 
 ### 🚀 ¡Aplicación lista para producción!
 
-**Desarrollado con ❤️ usando Angular 19 + TailwindCSS**
+**Desarrollado con ❤️ por Daniel Sanchez usando Angular 19 + TailwindCSS**
 
 ---
 
-*Para soporte técnico o consultas, contactar al equipo de desarrollo.*
+*Para soporte técnico o consultas, contactame por correo o a mi número personal.*
 
 </div>
