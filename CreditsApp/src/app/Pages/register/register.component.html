@@ -1,0 +1,325 @@
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center relative register-background">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+  <!-- Register Form -->
+  <div class="relative z-10 w-full max-w-2xl p-8 rounded-lg shadow-2xl my-8"
+       style="background-color: rgba(20, 20, 20, 0.9);">
+
+    <!-- Logo/Brand -->
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4"
+           style="background-color: rgb(215, 74, 58);">
+        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-white">Mi Aplicación</h2>
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold text-white text-center mb-6">
+      Crea tu cuenta
+    </h1>
+
+    <!-- Form -->
+    <form [formGroup]="formRegister" (ngSubmit)="registrarse()">
+      <!-- Nombre y Apellido -->
+      <div class="form-grid mb-6">
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-white mb-2">
+            Nombres
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            placeholder="Ingresa tus nombres"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="firstNameFocused || (formRegister.get('firstName')?.touched && formRegister.get('firstName')?.invalid)"
+            [style.ring-color]="(formRegister.get('firstName')?.touched && formRegister.get('firstName')?.invalid) ? 'rgb(239, 68, 68)' : (firstNameFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('firstName')"
+            (blur)="onFieldBlur('firstName')"
+            aria-required="true">
+
+          <!-- Validation errors -->
+          <div *ngIf="formRegister.get('firstName')?.touched && formRegister.get('firstName')?.invalid" class="mt-2 text-sm text-red-400">
+            <div *ngIf="formRegister.get('firstName')?.errors?.['required']">Nombre es requerido</div>
+            <div *ngIf="formRegister.get('firstName')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
+          </div>
+        </div>
+
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-white mb-2">
+            Apellidos
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Ingresa tus apellidos"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="lastNameFocused || (formRegister.get('lastName')?.touched && formRegister.get('lastName')?.invalid)"
+            [style.ring-color]="(formRegister.get('lastName')?.touched && formRegister.get('lastName')?.invalid) ? 'rgb(239, 68, 68)' : (lastNameFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('lastName')"
+            (blur)="onFieldBlur('lastName')"
+            aria-required="true">
+
+          <!-- Validation errors -->
+          <div *ngIf="formRegister.get('lastName')?.touched && formRegister.get('lastName')?.invalid" class="mt-2 text-sm text-red-400">
+            <div *ngIf="formRegister.get('lastName')?.errors?.['required']">Apellido es requerido</div>
+            <div *ngIf="formRegister.get('lastName')?.errors?.['minlength']">El apellido debe tener al menos 5 caracteres</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-6">
+        <label for="email" class="block text-sm font-medium text-white mb-2">
+          Correo electrónico
+        </label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="nombre@empresa.com"
+          class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+          style="background-color: rgba(255, 255, 255, 0.1);"
+          [class.ring-2]="emailFocused || (formRegister.get('email')?.touched && formRegister.get('email')?.invalid)"
+          [style.ring-color]="(formRegister.get('email')?.touched && formRegister.get('email')?.invalid) ? 'rgb(239, 68, 68)' : (emailFocused ? 'rgb(215, 74, 58)' : '')"
+          (focus)="onFieldFocus('email')"
+          (blur)="onFieldBlur('email')"
+          aria-required="true"
+          autocomplete="email">
+
+        <!-- Validation errors -->
+        <div *ngIf="formRegister.get('email')?.touched && formRegister.get('email')?.invalid" class="mt-2 text-sm text-red-400">
+          <div *ngIf="formRegister.get('email')?.errors?.['required']">Email es requerido</div>
+          <div *ngIf="formRegister.get('email')?.errors?.['email']">Email inválido</div>
+        </div>
+      </div>
+
+      <!-- Tipo de Documento y Número -->
+      <div class="form-grid mb-6">
+        <div>
+          <label for="identificationType" class="block text-sm font-medium text-white mb-2">
+            Tipo de documento
+          </label>
+          <div class="custom-select">
+            <select
+              id="identificationType"
+              formControlName="identificationType"
+              class="w-full px-4 py-3 rounded-lg border-0 text-black placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+              style="background-color: rgba(255, 255, 255, 0.1);"
+              [class.ring-2]="identificationTypeFocused || (formRegister.get('identificationType')?.touched && formRegister.get('identificationType')?.invalid)"
+              [style.ring-color]="(formRegister.get('identificationType')?.touched && formRegister.get('identificationType')?.invalid) ? 'rgb(239, 68, 68)' : (identificationTypeFocused ? 'rgb(215, 74, 58)' : '')"
+              (focus)="onFieldFocus('identificationType')"
+              (blur)="onFieldBlur('identificationType')"
+              aria-required="true">
+              <option value="" disabled selected hidden>Selecciona tipo</option>
+              <option value="CI">Cédula de Identidad</option>
+              <option value="P">Pasaporte</option>
+              <option value="CE">Cédula de Extranjero</option>
+              <option value="ruc">RUC</option>
+            </select>
+          </div>
+
+          <!-- Validation errors -->
+          <div *ngIf="formRegister.get('identificationType')?.touched && formRegister.get('identificationType')?.invalid" class="mt-2 text-sm text-red-400">
+            <div *ngIf="formRegister.get('identificationType')?.errors?.['required']">Tipo de documento es requerido</div>
+          </div>
+        </div>
+
+        <div>
+          <label for="identificationNumber" class="block text-sm font-medium text-white mb-2">
+            Número de documento
+          </label>
+          <input
+            type="text"
+            id="identificationNumber"
+            formControlName="identificationNumber"
+            placeholder="12345678"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="identificationNumberFocused || (formRegister.get('identificationNumber')?.touched && formRegister.get('identificationNumber')?.invalid)"
+            [style.ring-color]="(formRegister.get('identificationNumber')?.touched && formRegister.get('identificationNumber')?.invalid) ? 'rgb(239, 68, 68)' : (identificationNumberFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('identificationNumber')"
+            (blur)="onFieldBlur('identificationNumber')"
+            aria-required="true">
+
+          <!-- Validation errors -->
+          <div *ngIf="formRegister.get('identificationNumber')?.touched && formRegister.get('identificationNumber')?.invalid" class="mt-2 text-sm text-red-400">
+            <div *ngIf="formRegister.get('identificationNumber')?.errors?.['required']">Número de documento es requerido</div>
+            <div *ngIf="formRegister.get('identificationNumber')?.errors?.['minlength']">El número debe tener al menos 8 caracteres</div>
+          </div>
+        </div>
+      </div>      <!-- Selección de Rol -->
+      <div class="mb-6">
+        <label for="role" class="block text-sm font-medium text-white mb-2">
+          Selecciona tu rol
+        </label>
+        <div class="custom-select">
+          <select
+            id="role"
+            formControlName="role"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="roleFocused || (formRegister.get('role')?.touched && formRegister.get('role')?.invalid)"
+            [style.ring-color]="(formRegister.get('role')?.touched && formRegister.get('role')?.invalid) ? 'rgb(239, 68, 68)' : (roleFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('role')"
+            (blur)="onFieldBlur('role')"
+            aria-required="true">
+            <option value="1">Applicant</option>
+            <option value="2">Analyst</option>
+          </select>
+        </div>
+
+        <!-- Validation errors -->
+        <div *ngIf="formRegister.get('role')?.touched && formRegister.get('role')?.invalid" class="mt-2 text-sm text-red-400">
+          <div *ngIf="formRegister.get('role')?.errors?.['required']">Rol es requerido</div>
+        </div>
+      </div>
+
+      <!-- Fecha de Nacimiento -->
+      <div class="mb-6">
+        <label for="birthDate" class="block text-sm font-medium text-white mb-2">
+          Fecha de nacimiento
+        </label>
+        <input
+          type="date"
+          id="birthDate"
+          formControlName="birthDate"
+          class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200"
+          style="background-color: rgba(255, 255, 255, 0.1);"
+          [class.ring-2]="birthDateFocused || (formRegister.get('birthDate')?.touched && formRegister.get('birthDate')?.invalid)"
+          [style.ring-color]="(formRegister.get('birthDate')?.touched && formRegister.get('birthDate')?.invalid) ? 'rgb(239, 68, 68)' : (birthDateFocused ? 'rgb(215, 74, 58)' : '')"
+          (focus)="onFieldFocus('birthDate')"
+          (blur)="onFieldBlur('birthDate')"
+          aria-required="true">
+
+        <!-- Validation errors -->
+        <div *ngIf="formRegister.get('birthDate')?.touched && formRegister.get('birthDate')?.invalid" class="mt-2 text-sm text-red-400">
+          <div *ngIf="formRegister.get('birthDate')?.errors?.['required']">Fecha de nacimiento es requerida</div>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-white mb-2">
+          Contraseña
+        </label>
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200 pr-12"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="passwordFocused || (formRegister.get('password')?.touched && formRegister.get('password')?.invalid)"
+            [style.ring-color]="(formRegister.get('password')?.touched && formRegister.get('password')?.invalid) ? 'rgb(239, 68, 68)' : (passwordFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('password')"
+            (blur)="onFieldBlur('password')"
+            aria-required="true"
+            autocomplete="new-password">
+          <button
+            type="button"
+            (click)="togglePassword()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+            <svg *ngIf="!showPassword" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+            </svg>
+            <svg *ngIf="showPassword" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"></path>
+              <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Password validation errors -->
+        <div *ngIf="formRegister.get('password')?.touched && formRegister.get('password')?.invalid" class="mt-2 text-sm text-red-400">
+          <div *ngIf="formRegister.get('password')?.errors?.['required']">Contraseña es requerida</div>
+          <div *ngIf="formRegister.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-sm font-medium text-white mb-2">
+          Confirmar contraseña
+        </label>
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            class="w-full px-4 py-3 rounded-lg border-0 text-white placeholder-gray-400 focus:ring-2 focus:outline-none transition-all duration-200 pr-12"
+            style="background-color: rgba(255, 255, 255, 0.1);"
+            [class.ring-2]="confirmPasswordFocused || (formRegister.get('confirmPassword')?.touched && (formRegister.get('confirmPassword')?.invalid || formRegister.hasError('passwordMismatch')))"
+            [style.ring-color]="(formRegister.get('confirmPassword')?.touched && (formRegister.get('confirmPassword')?.invalid || formRegister.hasError('passwordMismatch'))) ? 'rgb(239, 68, 68)' : (confirmPasswordFocused ? 'rgb(215, 74, 58)' : '')"
+            (focus)="onFieldFocus('confirmPassword')"
+            (blur)="onFieldBlur('confirmPassword')"
+            aria-required="true"
+            autocomplete="new-password">
+          <button
+            type="button"
+            (click)="toggleConfirmPassword()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+            <svg *ngIf="!showConfirmPassword" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+            </svg>
+            <svg *ngIf="showConfirmPassword" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"></path>
+              <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Password validation errors -->
+        <div *ngIf="formRegister.get('confirmPassword')?.touched" class="mt-2 text-sm text-red-400">
+          <div *ngIf="formRegister.get('confirmPassword')?.errors?.['required']">Confirmación de contraseña es requerida</div>
+          <div *ngIf="formRegister.get('confirmPassword')?.errors?.['minlength']">La confirmación debe tener al menos 6 caracteres</div>
+          <div *ngIf="formRegister.hasError('passwordMismatch') && !formRegister.get('confirmPassword')?.errors?.['required']">Las contraseñas no coinciden</div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="loading || formRegister.invalid"
+        class="w-full mt-4 py-3 px-4 rounded-lg font-medium text-white transition-all duration-200 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+        style="background-color: rgb(215, 74, 58);">
+        <span *ngIf="!loading">Crear cuenta</span>
+        <span *ngIf="loading" class="flex items-center justify-center">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Registrando...
+        </span>
+      </button>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="mt-4 p-3 rounded-lg text-sm text-white" style="background-color: rgba(215, 74, 58, 0.2);">
+        {{ errorMessage }}
+      </div>
+    </form>
+
+    <!-- Sign in link -->
+    <div class="mt-8 text-center">
+      <span class="text-white">¿Ya tienes una cuenta? </span>
+      <button
+        (click)="switchToLogin()"
+        class="font-medium hover:underline transition-colors"
+        style="color: rgb(237, 200, 101);">
+        Inicia sesión
+      </button>
+    </div>
+  </div>
+</div>

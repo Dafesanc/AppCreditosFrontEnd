@@ -1,0 +1,27 @@
+/* Estilos para el header */
+.text-gray-300 {
+  color: rgba(209, 213, 219, 0.8);
+}
+
+/* Animación para los enlaces */
+nav a, button {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+nav a:hover, button:hover {
+  transform: translateY(-1px);
+}
+
+/* Estilos para enlace activo */
+.text-edc865 {
+  font-weight: 500;
+}
+
+/* Estilo para el botón de cerrar sesión */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+}

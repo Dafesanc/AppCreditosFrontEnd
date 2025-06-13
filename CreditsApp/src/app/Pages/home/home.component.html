@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-[#141414] text-white flex flex-col">
+  <!-- Shared Header Component -->
+  <app-header></app-header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex-1 flex items-center justify-center">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d74a3a]"></div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="flex-1 flex items-center justify-center">
+    <div class="bg-[#d74a3a] bg-opacity-20 p-4 rounded-lg text-center">
+      <p class="text-[#d74a3a] font-medium">{{ error }}</p>
+      <button
+        (click)="loadUserProfile()"
+        class="mt-4 bg-[#d74a3a] hover:bg-opacity-90 text-white px-4 py-2 rounded-md transition duration-200">
+        Reintentar
+      </button>
+    </div>
+  </div>
+
+  <!-- User Profile Content -->
+  <div *ngIf="!loading && !error && user" class="container mx-auto py-8 px-4 flex-1">
+    <div class="max-w-2xl mx-auto bg-[#1a1a1a] rounded-lg shadow-xl overflow-hidden">
+      <!-- Profile Header -->
+      <div class="bg-[#252440] p-6 text-center">
+        <h2 class="text-3xl font-bold mb-4">Perfil de Usuario</h2>
+        <div class="relative mx-auto w-32 h-32 rounded-full bg-[#c4b4d3] mb-4 overflow-hidden border-4 border-[#d74a3a]">
+          <!-- Avatar Circle -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg class="w-20 h-20 text-[#252440]" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold">{{user.firstName}} {{user.lastName}}</h3>
+        <span class="inline-block bg-[#edc865] text-[#252440] text-sm font-medium px-3 py-1 rounded-full mt-2">
+          {{getRoleName(user.role)}}
+        </span>
+      </div>
+
+      <!-- Profile Details -->
+      <div class="p-6">
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Email -->
+          <div class="bg-[#252440] bg-opacity-30 p-4 rounded-lg">
+            <h4 class="text-[#d74a3a] text-sm uppercase font-medium">Correo Electrónico</h4>
+            <p class="mt-1">{{user.email || 'No disponible'}}</p>
+          </div>
+
+          <!-- User ID -->
+          <div class="bg-[#252440] bg-opacity-30 p-4 rounded-lg">
+            <h4 class="text-[#d74a3a] text-sm uppercase font-medium">ID de Usuario</h4>
+            <p class="mt-1">{{user.userId || 'No disponible'}}</p>
+          </div>
+
+          <!-- Status -->
+          <div class="bg-[#252440] bg-opacity-30 p-4 rounded-lg">
+            <h4 class="text-[#d74a3a] text-sm uppercase font-medium">Estado</h4>
+            <p class="mt-1 flex items-center">
+              <span class="w-2 h-2 rounded-full mr-2" [ngClass]="{'bg-green-500': user.isAuthenticated, 'bg-red-500': !user.isAuthenticated}"></span>
+              {{user.isAuthenticated ? 'Autenticado' : 'No Autenticado'}}
+            </p>
+          </div>
+
+          <!-- Role -->
+          <div class="bg-[#252440] bg-opacity-30 p-4 rounded-lg">
+            <h4 class="text-[#d74a3a] text-sm uppercase font-medium">Rol</h4>
+            <p class="mt-1">{{getRoleName(user.role)}}</p>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+          <!-- <button
+            class="bg-[#edc865] hover:bg-opacity-90 text-[#252440] font-medium px-6 py-3 rounded-lg shadow transition duration-200">
+            Editar Perfil
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Shared Footer Component -->
+  <app-footer></app-footer>
+</div>
+

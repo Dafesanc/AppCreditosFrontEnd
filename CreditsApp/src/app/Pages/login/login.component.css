@@ -1,0 +1,8 @@
+input:focus {
+  box-shadow: 0 0 0 2px rgb(215, 74, 58);
+}
+
+input[type="checkbox"]:checked {
+  background-color: rgb(215, 74, 58);
+  border-color: rgb(215, 74, 58);
+}
