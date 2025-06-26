@@ -76,6 +76,7 @@ export class LoginComponent {
 
   forgotPassword() {
     // Implement forgot password logic here
+    alert('Forgot password functionality is not implemented yet.')
     this.router.navigate(['forgot-password']);
   }
 

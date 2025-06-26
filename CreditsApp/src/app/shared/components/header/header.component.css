@@ -1,4 +1,81 @@
 /* Estilos para el header */
+header {
+  height: auto;
+  min-height: 4.5rem;
+  max-height: 5.75rem;
+}
+
+/* Logo del header */
+header img {
+  height: 2.5rem !important;
+  width: auto !important;
+  max-height: 2.5rem !important;
+  object-fit: contain !important;
+  transition: all 0.3s ease;
+}
+
+/* Responsividad para el logo en el header */
+@media (min-width: 640px) {
+  header img {
+    height: 2.75rem !important;
+    max-height: 2.75rem !important;
+  }
+
+  header {
+    min-height: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  header img {
+    height: 3rem !important;
+    max-height: 3rem !important;
+  }
+
+  header {
+    min-height: 5.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  header img {
+    height: 3.5rem !important;
+    max-height: 3.5rem !important;
+  }
+
+}
+
+/* Contenedor del header */
+.container {
+  align-items: center !important;
+  min-height: 4rem !important;
+}
+
+/* Para dispositivos muy pequeños */
+@media (max-width: 480px) {
+  header {
+    min-height: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  header img {
+    height: 2.25rem !important;
+    max-height: 2.25rem !important;
+  }
+
+  nav ul {
+    gap: 1rem;
+  }
+}
+
+/* Para tablets y móviles horizontales */
+@media (min-width: 481px) and (max-width: 768px) {
+  nav ul {
+    gap: 1.5rem;
+  }
+}
+
 .text-gray-300 {
   color: rgba(209, 213, 219, 0.8);
 }
