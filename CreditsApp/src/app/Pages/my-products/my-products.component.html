@@ -1,0 +1,475 @@
+<app-header></app-header>
+<!-- min-h-screen bg-gray-50 -->
+<div class="min-h-screen bg-[#141414] text-white flex py-6">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <!-- Header de la página -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between">
+        <!-- <h1 class="text-3xl font-bold text-gray-800">Mis Productos</h1> -->
+        <h1 class="text-3xl font-bold text-gray-300">Mis Productos</h1>
+        <div class="text-sm text-gray-600">
+          <span class="block">10:31 p. m.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Cuentas -->
+    <div class="mb-8">
+      <!-- <div class="bg-[rgb(20,20,20)] rounded-lg shadow-md p-6 border-gray-700"> -->
+      <div class="bg-[#1a1a1a] border-gray-700 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-white flex items-center">
+            <span class="mr-2">🏦</span>
+            Cuentas
+          </h2>
+          <button
+            (click)="openAccountModal()"
+            title="Crear nueva cuenta"
+            aria-label="Crear nueva cuenta"
+            class="bg-[#77569c] hover:bg-[#7139af] text-white p-2 rounded-full transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Lista de cuentas existentes -->
+        <div class="space-y-4">
+          <div *ngFor="let account of bankAccount"
+               class="border border-gray-200 bg-gray-100 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">{{ getAccountTypeIcon(account.accountTypeName) }}</span>
+                <div>
+                  <h3 class="font-medium text-gray-800">
+                    Cuenta de {{ account.accountTypeName }} {{ account.maskedAccountNumber }}
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    Saldo disponible: <span class="font-semibold">${{ account.balance | number:'1.2-2' }}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                      [class]="account.isApproved ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                  {{ account.isApproved ? 'Activa' : 'Inactiva' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección para abrir nueva cuenta -->
+        <div class="mt-4 p-4 bg-indigo-200 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-medium text-[#252440]">Abrir cuenta de ahorros</h4>
+              <p class="text-sm text-indigo-500">Proceso completamente en línea</p>
+            </div>
+            <button
+              (click)="openAccountModal()"
+              title="Solicitar nueva cuenta"
+              aria-label="Solicitar nueva cuenta"
+              class="bg-[#77569c] hover:bg-[#7139af] text-white p-2 rounded-full transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Inversiones -->
+    <div class="mb-8">
+      <div class="bg-[#1a1a1a] border-gray-700 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-white flex items-center">
+            <span class="mr-2">📈</span>
+            Inversiones
+          </h2>
+          <button
+            (click)="openInvestmentModal()"
+            title="Crear nueva inversión"
+            aria-label="Crear nueva inversión"
+            class="bg-[#77569c] hover:bg-[#7139af] text-white p-2 rounded-full transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Lista de inversiones existentes -->
+        <div class="space-y-4">
+          <div *ngFor="let investment of investments"
+               class="border border-gray-200 bg-white rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">💰</span>
+                <div>
+                  <h3 class="font-medium text-gray-800">{{ investment.type }}</h3>
+                  <p class="text-sm text-gray-600">
+                    Inversión: <span class="font-semibold">${{ investment.amount | number:'1.2-2' }}</span>
+                  </p>
+                  <p class="text-sm text-gray-600">
+                    Rendimiento esperado: <span class="font-semibold text-green-600">{{ investment.expectedReturn }}%</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección para crear nueva póliza -->
+        <div class="mt-4 p-4 bg-green-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-medium text-green-900">Crear nueva Póliza</h4>
+              <p class="text-sm text-green-700">Proceso completamente en línea</p>
+            </div>
+            <div class="flex space-x-2">
+              <button
+                (click)="openInvestmentSimulator()"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm transition-colors">
+                Simular
+              </button>
+              <button
+                (click)="openInvestmentModal()"
+                title="Solicitar nueva inversión"
+                aria-label="Solicitar nueva inversión"
+                class="bg-[#77569c] hover:bg-[#7139af] text-white p-2 rounded-full transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Tarjetas -->
+    <div class="mb-8">
+      <div class="bg-[#1a1a1a] border-gray-700 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-200 flex items-center">
+            <span class="mr-2">💳</span>
+            Tarjetas
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div *ngFor="let card of creditCards"
+               class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">{{ getCardTypeIcon(card.type) }}</span>
+                <div>
+                  <h3 class="font-medium text-gray-800 capitalize">
+                    Tarjeta de {{ card.type }}
+                  </h3>
+                  <p class="text-sm text-gray-600">{{ card.cardNumber }}</p>
+                </div>
+              </div>
+              <button
+                (click)="openCardDetails(card)"
+                title="Ver detalles de tarjeta"
+                aria-label="Ver detalles de tarjeta"
+                class="bg-[#77569c] hover:bg-[#7139af] p-1 transition-colors rounded-md">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="text-sm text-gray-600">
+              <p>Vencimiento: {{ card.expiryDate }}</p>
+              <p *ngIf="card.type === 'credito'">
+                Límite: ${{ card.limit | number:'1.2-2' }} |
+                Disponible: ${{ (card.limit! - card.balance!) | number:'1.2-2' }}
+              </p>
+              <p *ngIf="card.type === 'debito'">
+                Saldo: ${{ card.balance | number:'1.2-2' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Metas (inspirado en la imagen) -->
+    <div class="mb-8">
+      <div class="bg-[#1a1a1a] shadow-md p-6 border-gray-700 rounded-lg">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold flex items-center text-gray-200">
+            <span class="mr-2">🎯</span>
+            Metas
+          </h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🏠</span>
+                <div class="flex-1">
+                  <h3 class="font-medium text-gray-800">Casa Propia</h3>
+                  <p class="text-sm text-gray-600">
+                    Meta: <span class="font-semibold">$45,000</span> |
+                    Ahorrado: <span class="font-semibold text-green-600">$12,500</span>
+                  </p>
+                  <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-green-500 h-2 rounded-full progress-28"></div>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">28% completado</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🚗</span>
+                <div class="flex-1">
+                  <h3 class="font-medium text-gray-800">Vehículo Nuevo</h3>
+                  <p class="text-sm text-gray-600">
+                    Meta: <span class="font-semibold">$18,000</span> |
+                    Ahorrado: <span class="font-semibold text-green-600">$8,200</span>
+                  </p>
+                  <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-blue-500 h-2 rounded-full progress-46"></div>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">46% completado</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-purple-50 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-medium text-purple-900">Crear nueva meta</h4>
+              <p class="text-sm text-purple-700">Establece tus objetivos financieros</p>
+            </div>
+            <button
+              class="bg-[#77569c] hover:bg-purple-600 text-white px-3 py-1 rounded text-sm transition-colors">
+              Crear Meta
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Nueva Cuenta -->
+  <div *ngIf="showAccountModal"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+       (click)="closeAccountModal()">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-500">Solicitar Nueva Cuenta</h3>
+        <button
+          (click)="closeAccountModal()"
+          title="Cerrar modal"
+          aria-label="Cerrar modal"
+          class="text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="mb-4">
+        <p class="text-gray-600 mb-4">Selecciona el tipo de cuenta que deseas abrir:</p>
+        <div class="space-y-2">
+          <label class="flex items-center">
+            <input type="radio" name="accountType" value="1" class="mr-2">
+            <span class="text-gray-600">Cuenta de Ahorros</span>
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="accountType" value="2" class="mr-2">
+            <span class="text-gray-600">Cuenta Corriente</span>
+          </label>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-3">
+        <button (click)="closeAccountModal()"
+                class="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+          Cancelar
+        </button>
+        <button (click)="requestNewAccount()"
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Solicitar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Nueva Inversión -->
+  <div *ngIf="showInvestmentModal"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+       (click)="closeInvestmentModal()">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Solicitar Póliza de Inversión</h3>
+        <button
+          (click)="closeInvestmentModal()"
+          title="Cerrar modal"
+          aria-label="Cerrar modal"
+          class="text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="mb-4">
+        <p class="text-gray-600 mb-4">Completa la información para tu póliza de inversión:</p>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Monto a invertir</label>
+            <input
+              type="number"
+              placeholder="1000"
+              title="Monto a invertir"
+              class="w-full border border-gray-300 rounded px-3 py-2">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Plazo (meses)</label>
+            <select
+              title="Seleccionar plazo"
+              aria-label="Seleccionar plazo en meses"
+              class="w-full border border-gray-300 rounded px-3 py-2">
+              <option value="6">6 meses</option>
+              <option value="12">12 meses</option>
+              <option value="24">24 meses</option>
+              <option value="36">36 meses</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-3">
+        <button (click)="closeInvestmentModal()"
+                class="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50">
+          Cancelar
+        </button>
+        <button (click)="requestInvestment()"
+                class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Solicitar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Simulador de Inversión -->
+  <div *ngIf="showInvestmentSimulator"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+       (click)="closeInvestmentSimulator()">
+    <div class="bg-white rounded-lg p-6 w-full max-w-lg mx-4" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Simulador de Inversión</h3>
+        <button
+          (click)="closeInvestmentSimulator()"
+          title="Cerrar simulador"
+          aria-label="Cerrar simulador"
+          class="text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Monto a invertir ($)</label>
+          <input
+            type="number"
+            [(ngModel)]="simulatorData.amount"
+            placeholder="1000"
+            title="Monto a invertir"
+            class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Plazo (meses)</label>
+          <input
+            type="number"
+            [(ngModel)]="simulatorData.term"
+            placeholder="12"
+            title="Plazo en meses"
+            class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tasa de interés anual (%)</label>
+          <input
+            type="number"
+            [(ngModel)]="simulatorData.interestRate"
+            step="0.1"
+            placeholder="8.5"
+            title="Tasa de interés anual"
+            class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+        <button (click)="calculateInvestment()"
+                class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+          Calcular
+        </button>
+
+        <div *ngIf="simulationResult.finalAmount > 0" class="mt-4 p-4 bg-green-50 rounded-lg">
+          <h4 class="font-medium text-green-900 mb-2">Resultados de la simulación:</h4>
+          <div class="space-y-1 text-sm">
+            <p>Monto final: <span class="font-semibold">${{ simulationResult.finalAmount | number:'1.2-2' }}</span></p>
+            <p>Ganancia total: <span class="font-semibold text-green-600">${{ simulationResult.totalReturn | number:'1.2-2' }}</span></p>
+            <p>Ganancia mensual promedio: <span class="font-semibold">${{ simulationResult.monthlyReturn | number:'1.2-2' }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalles de Tarjeta -->
+  <div *ngIf="showCardDetailsModal && selectedCard"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+       (click)="closeCardDetailsModal()">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Detalles de Tarjeta</h3>
+        <button
+          (click)="closeCardDetailsModal()"
+          title="Cerrar detalles"
+          aria-label="Cerrar detalles"
+          class="text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <span class="text-sm text-gray-600">Tipo:</span>
+          <p class="font-medium capitalize">Tarjeta de {{ selectedCard.type }}</p>
+        </div>
+        <div>
+          <span class="text-sm text-gray-600">Número:</span>
+          <p class="font-medium">{{ selectedCard.cardNumber }}</p>
+        </div>
+        <div>
+          <span class="text-sm text-gray-600">Vencimiento:</span>
+          <p class="font-medium">{{ selectedCard.expiryDate }}</p>
+        </div>
+        <div *ngIf="selectedCard.type === 'credito'">
+          <span class="text-sm text-gray-600">Límite de crédito:</span>
+          <p class="font-medium">${{ selectedCard.limit | number:'1.2-2' }}</p>
+        </div>
+        <div>
+          <span class="text-sm text-gray-600">{{ selectedCard.type === 'credito' ? 'Saldo usado:' : 'Saldo disponible:' }}</span>
+          <p class="font-medium">${{ selectedCard.balance | number:'1.2-2' }}</p>
+        </div>
+        <div>
+          <span class="text-sm text-gray-600">Estado:</span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [class]="selectedCard.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+            {{ selectedCard.isActive ? 'Activa' : 'Inactiva' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
